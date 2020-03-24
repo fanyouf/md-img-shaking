@@ -7,7 +7,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 const figlet = require('figlet');
 
-const { askMarkdown, askToMove, askToDoWithImg } = require('./utils/ask')
+const { askMarkdown, askToDoWithImg } = require('./utils/ask')
 const { readAllMarkDown,
   getAllImg,
   unUsed,
@@ -15,14 +15,9 @@ const { readAllMarkDown,
   isExist,
   getAllImgInfo } = require('./utils')
 
-let curPath = process.cwd()
-let allMarkdownFiles = readAllMarkDown(curPath).map(item => path.join(curPath, item))
-let mdFiles = []
-if (allMarkdownFiles.length === 0) {
-  console.log('当前目录下没有.md文件。程序退出')
-} else {
-  mdFiles = ['全部',  ...allMarkdownFiles]
-}
+// 当前目录
+const curPath = process.cwd()
+
 
 console.log(
   chalk.yellow(
@@ -32,17 +27,20 @@ console.log(
 
 program
   .action(async () => {
-    let yourSelect = await askMarkdown(mdFiles)
-
-    if (yourSelect.length < 0) {
-      return;
+    let allMarkdownFiles = readAllMarkDown(curPath).map(item => path.join(curPath, item))
+    let mdFiles = []
+    if (allMarkdownFiles.length === 0) {
+      console.log( chalk.red('当前目录下没有.md文件。程序退出'))
+      return
+    } else {
+      mdFiles = ['全部', ...allMarkdownFiles]
     }
+
+    let yourSelect = await askMarkdown(mdFiles)
 
     let { result, imgsFilePath, images } = getAllImgInfo(yourSelect)
     // console.log(result)
-    console.log("帮你扫描了"+chalk.green(yourSelect.length)+"份markdown文件，其中用到了"+chalk.green(images.length)+"张图片");
-    
-    
+    console.log("帮你扫描了" + chalk.green(yourSelect.length) + "份markdown文件，其中用到了" + chalk.green(images.length) + "张图片");
 
     if (images.length === 0) {
       console.log(chalk.green(`在${yourSelect.length}份markdown文件中并没有引入任何相对路径的图片`));
@@ -55,16 +53,15 @@ program
 
     let allImage = getAllImg(imgsFilePath.map(item => path.join(curPath, item)))
 
-    let unUsedImages = (unUsed(allImage, images))   
+    let unUsedImages = unUsed(allImage, images)
     console.log()
-    console.log('结果：')
+    console.log(' 结果：')
 
-    let checkResult = isExist(result) 
-    Object.keys(checkResult).forEach(obj=>{
-      
+    let checkResult = isExist(result)
+    Object.keys(checkResult).forEach(obj => {
       console.log(`"${path.basename(obj)}" 中有 [${checkResult[obj].length}] 张图引用错误`)
-      checkResult[obj].forEach((f,idx) => {
-        console.log(`   ${idx+1} `,f)
+      checkResult[obj].forEach((f, idx) => {
+        console.log(`   ${idx + 1} `, f)
       })
     })
 
@@ -75,7 +72,7 @@ program
       // 1: "不移动，只显示这些图片信息",
       // 2: "不移动，将图片信息导出到文件"
       let = folderPath = 'unusedImage' + Date.now()
-   
+
 
       if (answers == 0) {
         moveTo(unUsedImages, path.join(curPath, folderPath))
@@ -90,7 +87,6 @@ program
         console.log(chalk.green(`${unUsedImages.length}张图片保存在了${filepath}下`));
       }
     } else {
-
       console.log(chalk.yellowBright(`    你的markdown文件中引用的图片目录是整洁的 `));
     }
   })

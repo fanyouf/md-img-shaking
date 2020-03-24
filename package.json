@@ -1,6 +1,6 @@
 {
   "name": "md-img-shaking",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "在图片目录中找出没有被markdown引用的文件",
   "bin": {
     "md-img-shaking": "./bin/index.js"
@@ -8,6 +8,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fanyoufu/md-img-shaking.git"
+  },
+  "homepage": "https://github.com/fanyoufu/md-img-shaking#readme",
   "keywords": [
     "markdown",
     "img",
