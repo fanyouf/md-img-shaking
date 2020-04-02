@@ -39,8 +39,9 @@ program
     let yourSelect = await askMarkdown(mdFiles)
 
     let { result, imgsFilePath, images } = getAllImgInfo(yourSelect)
-    // console.log(result)
-    console.log("帮你扫描了" + chalk.green(yourSelect.length) + "份markdown文件，其中用到了" + chalk.green(images.length) + "张图片");
+    // console.log(images)
+    // console.dir(result)
+    console.log("帮你扫描了[" + chalk.green(yourSelect.length) + "]份markdown文件，其中用到了" + chalk.green(images.length) + "张图片");
 
     if (images.length === 0) {
       console.log(chalk.green(`在${yourSelect.length}份markdown文件中并没有引入任何相对路径的图片`));

@@ -60,6 +60,18 @@ module.exports = {
                 images.add( path.join(path.dirname(filePath),$2) )
                 imgsFilePath.add(path.dirname($2) )
             })
+
+            fileContent.replace(/\<img src=\"(.*?)\".*alt=\"(.*?)\".*\/\>/g,(str,$2,$1)=>{
+                console.log($1,$2)
+                if( result[filePath]){
+                    result[filePath].push({'name':$1,'path':path.join(path.dirname(filePath),$2)})
+                } else {
+                    result[filePath] = [{'name':$1,'path':path.join(path.dirname(filePath),$2)}]
+
+                }
+                images.add( path.join(path.dirname(filePath),$2) )
+                imgsFilePath.add(path.dirname($2) )
+            })
             // console.log(result)
         })
         return {result,imgsFilePath:[ ...imgsFilePath],images:[ ...images]} ;

@@ -1,6 +1,6 @@
 {
   "name": "md-img-shaking",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "在图片目录中找出没有被markdown引用的文件",
   "bin": {
     "md-img-shaking": "./bin/index.js"
@@ -22,7 +22,7 @@
   ],
   "author": "fanyoufu",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "chalk": "^3.0.0",
     "clui": "^0.3.6",
     "commander": "^5.0.0",
